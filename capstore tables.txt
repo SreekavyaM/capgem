@@ -1,0 +1,22 @@
+CREATE DATABASE capstore;
+USE capstore;
+CREATE TABLE merchant(merchantid INT,mname VARCHAR (50),email VARCHAR(50),phonenumber VARCHAR(12),typeid INT,address VARCHAR(150),feedbackid INT REFERENCES feedback(feedbackid),rating DECIMAL(4,2),username VARCHAR(50),PASSWORD VARCHAR(50));
+
+CREATE TABLE feedback(feedbackid INT,feedbacktext TEXT,description VARCHAR(150));
+
+CREATE TABLE ratingmerchant(customerid INT,productid INT,rating DECIMAL(4,2),merchantid INT);
+CREATE TABLE Category(categoryId INT PRIMARY KEY ,categoryName VARCHAR(50),description VARCHAR(150));
+
+CREATE TABLE product(productid INT PRIMARY KEY,productname VARCHAR(50),categoryid INT REFERENCES category(categoryid),stock INT,viewcount INT,merchantid INT REFERENCES merchant(merchantid),rating DECIMAL(4,2),feedbackid INT REFERENCES feedback(feedbackid),price DECIMAL(10,2));
+
+CREATE TABLE feedbackproduct(feedbackid INT REFERENCES feedback(feedbackid),productid INT REFERENCES product(productid));
+
+CREATE TABLE feedbackmerchant(feedbackid INT REFERENCES feedback(feedbackid),merchantid INT REFERENCES merchant(merchantid));
+
+
+CREATE TABLE Customer(customerID INT AUTO_INCREMENT,firstName VARCHAR(50),lastName VARCHAR(50),email VARCHAR(50),phone BIGINT(12),dOB DATE,gender VARCHAR (10),address VARCHAR(150),userName VARCHAR(50),PASSWORD VARCHAR (50),PRIMARY KEY(customerID));				
+
+
+CREATE TABLE wishlist(customerid INT REFERENCES customer(customerid),productid INT REFERENCES product(productid),quantity INT);
+
+CREATE TABLE cart(customerid INT REFERENCES customer(customerid),productid INT REFERENCES product(productid),quantity INT);
